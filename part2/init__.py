@@ -1,11 +1,18 @@
 from flask import Flask
-from flask_restx import Api
+from flask_sqlalchemy import SQLAlchemy
+import config  # assuming you have a config.py with DevelopmentConfig
 
-def create_app():
+db = SQLAlchemy()
+
+def create_app(config_class=config.DevelopmentConfig):
     app = Flask(__name__)
-    api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc='/api/v1/')
+    app.config.from_object(config_class)
 
-    # Placeholder for API namespaces (endpoints will be added later)
-    # Additional namespaces for places, reviews, and amenities will be added later
+    # Initialize extensions
+    db.init_app(app)
+
+    # Register blueprints or other app components here
+    # from app.routes import main
+    # app.register_blueprint(main)
 
     return app
